@@ -1,4 +1,4 @@
-# 🛡️AxCrypt — CustomTkinter Edition
+# 🛡️AxCrypt
 ### Complete Project Documentation
 
 > **Version:** 1.0.1 | **Python:** 3.11+ | **UI Framework:** CustomTkinter + Tkinter
