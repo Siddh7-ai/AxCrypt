@@ -402,19 +402,17 @@ class AxCryptApp(ctk.CTk):
 
     def show_auth(self):
         self._hide_all_panels()
-
-        if hasattr(self, "nav_frame"):
-            self.nav_frame.pack_forget()
-
+        # Hide footer nav on auth screen
+        if hasattr(self, "footer_frame"):
+            self.footer_frame.pack_forget()
         self.auth_panel.show()
 
 
     def show_lock(self):
         self._hide_all_panels()
-
-        if hasattr(self, "nav_frame"):
-            self.nav_frame.pack_forget()
-
+        # Hide footer nav during lock screen
+        if hasattr(self, "footer_frame"):
+            self.footer_frame.pack_forget()
         self.lock_panel.show()
 
 
@@ -423,7 +421,8 @@ class AxCryptApp(ctk.CTk):
         self.user_label.configure(text=f"👤 {username}")
         self._hide_all_panels()
 
-        # DO NOT call _build_nav()
+        # Restore footer nav (hidden during auth/lock screens)
+        self.footer_frame.pack(side="bottom", fill="x")
 
         self._switch_tab("DASHBOARD")
 
@@ -441,23 +440,22 @@ class AxCryptApp(ctk.CTk):
         try:
             if self.session.check_timeout():
                 self._do_lock_screen()
-            
             elif self.session.is_lock_requested() and not self.session.is_locked():
                 self.session.locked = True
                 self._do_lock_screen()
-            
-            # Schedule next check (1 second intervals)
+        except Exception as e:
+            import logging
+            logging.getLogger("axcrypt.app").error("Auto-lock check error: %s", e, exc_info=True)
+        finally:
+            # Always reschedule — never let the polling die silently
             self._auto_lock_job = self.after(1000, self._check_auto_lock)
-            
-        except Exception:
-            if self._auto_lock_job:
-                self.after_cancel(self._auto_lock_job)
-                self._auto_lock_job = None
 
     def _do_lock_screen(self):
         """Execute lock screen transition."""
         self._hide_all_panels()
-        self.nav_frame.pack_forget()
+        # Hide footer nav during lock screen
+        if hasattr(self, "footer_frame"):
+            self.footer_frame.pack_forget()
         self.user_label.configure(text="")
         self.lock_panel.show()
         self.session.clear_lock_request()

@@ -40,7 +40,10 @@ SCRYPT_P        = 1
 # ─── Security Tunables ────────────────────────────────────────────────────────
 MAX_LOGIN_ATTEMPTS  = 3
 LOCKOUT_SECS        = 120
-SESSION_TIMEOUT     = 300
+# ⏱ SESSION TIMEOUT — change this value to control auto-lock delay
+# 🔧 FOR TESTING: currently set to 30 seconds
+# 🔒 FOR PRODUCTION: change back to 300 (5 minutes) or any value you prefer
+SESSION_TIMEOUT     = 30git            # ← CHANGE HERE to adjust session timeout (seconds)
 OTP_VALIDITY_SECS   = 300
 OTP_LENGTH          = 6
 
