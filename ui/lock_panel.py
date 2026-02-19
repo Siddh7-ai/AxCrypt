@@ -17,7 +17,7 @@ class LockPanel(tk.Frame):
         self.app = app
 
         card = CardFrame(self, border_colour=C["neon_violet"])
-        card.place(relx=0.5, rely=0.5, anchor="center", width=572, height=870)
+        card.place(relx=0.5, rely=0.5, anchor="center", width=400, height=380)
 
         # Pulsing lock icon
         self._pulse = PulseLabel(card, text="🔒", font=("Courier", 48),

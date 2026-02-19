@@ -304,15 +304,15 @@ class DecryptPanel(tk.Frame):
 
         try:
             # Stage 0: Key derivation
-            self.ui_queue.put(("stage", 19, "Deriving key …"))
+            self.ui_queue.put(("stage", 0, "Deriving key …"))
             time.sleep(0.5)
 
             # Stage 1: Header parse
-            self.ui_queue.put(("stage", 19, "Parsing file header …"))
+            self.ui_queue.put(("stage", 1, "Parsing file header …"))
             time.sleep(0.3)
 
             # Stage 2: Decryption
-            self.ui_queue.put(("stage", 19, "Decrypting …"))
+            self.ui_queue.put(("stage", 2, "Decrypting …"))
 
             # Thread-safe progress callback - NO Tkinter calls
             def _progress(frac):
@@ -338,7 +338,7 @@ class DecryptPanel(tk.Frame):
                     pass  # Ignore cleanup errors
 
             # Stage 3: Output
-            self.ui_queue.put(("stage", 19, "Writing output …"))
+            self.ui_queue.put(("stage", 3, "Writing output …"))
             time.sleep(0.3)
 
             # Send completion event to main thread
